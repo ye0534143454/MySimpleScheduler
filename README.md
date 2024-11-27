@@ -3,11 +3,11 @@
 A Home Assistant AddOn to schedule switches, lights and other entities on a weekly base in a visual way without coding.\
 You can keep all the schedules in one place and add/change them in a few clicks, even in your mobile app.
 
-![SimpleScheduler](https://raw.githubusercontent.com/arthurdent75/SimpleScheduler/master/asset/logo.png)
+![SimpleScheduler](https://raw.githubusercontent.com/htht2001/SimpleScheduler/master/asset/logo.png)
 
 ### Installation
 Add the repository and then the addon by clicking on the badges:\
-[<img src="https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg">](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Farthurdent75%2FSimpleScheduler) \
+[<img src="https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg">](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fhtht2001%2FSimpleScheduler) \
 [<img src="https://my.home-assistant.io/badges/supervisor_addon.svg">](https://my.home-assistant.io/redirect/supervisor_addon/?addon=00185a40_simplescheduler) \
 If something goes wrong, you can install it manually.\
 You can add the URL of this page in your "add-on store" as a new repository:\
@@ -15,7 +15,7 @@ You can add the URL of this page in your "add-on store" as a new repository:\
 Click *Check for updates* and you will find the add-on "Simple Scheduler" listed.
 
 If you are not using a supervised installation, you can run the addon as a standalone docker.
-Take a look here: [docker_install.MD](https://github.com/arthurdent75/SimpleScheduler/blob/master/asset/docker_install.MD "docker_install.MD")
+Take a look here: [docker_install.MD](https://github.com/htht2001/SimpleScheduler/blob/master/asset/docker_install.MD "docker_install.MD")
 
 ### Type of scheduler
 
@@ -40,8 +40,16 @@ If you need more advanced features:
 - You can set the absolute brightness of a light. Write **16:30>BA30** turn on the light at 30
 - You can set the color of a RGB light. Write **16:30>B30|FF0077** turn on the light at 30% and set the color to FF0077 (6 digits HEX)
 - You can set the temperature of a CCT light. Write **16:30>B30|K4700** turn on the light at 30% and set it to 4700°K
-- You can set the temperature of a climate. Write **16:30>T22.5** to turn on the climate and set the temperature to 22.5° 
-- You can set the temperature of a climate without turning it on. Write **16:30>TO22.5** to set the temperature to 22.5°
+- Full control of climate control
+- Options
+- **16:30>TO** turn on
+- **16:30>TMC** = set mode cool, option H\D\A\F
+- **16:30>TT22.5** = set temperature, option 22.5\22
+- **16:30>TP3** = set power fan high, option A\1\2\3
+- **16:30>TS0** = swing off, option 0 = off \ 1 = vertical \ 2 = horizontal \ 3 =both
+- You can change everything separately and you can combine together whatever you want,
+- for example **16:30>T_MC_T22.5_P3_S2**
+- or **16:30>TO_PA_T22**
 - You can set the humidity of a (de)humidifier. Write **16:30>H65** to set the humidity to 65% 
 - You can set the position of a cover. Write **16:30>P25** will set the cover at 25%  
 - You can set the fan speed. Write **16:30>F25** will turn on the fan at 25%
