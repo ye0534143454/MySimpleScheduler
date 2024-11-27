@@ -74,7 +74,7 @@ def webserver_edit():
         with open(file, "r") as read_file:
             param = json.load(read_file)
     else:
-        param = json.loads(get_json_templateget_json_template(stype))
+        param = json.loads(get_json_templateget(stype))
         param['id'] = uuid.uuid4().hex
         is_new = True
 
@@ -485,7 +485,7 @@ def update_json_file(object_id, field_name, field_value):
     return True
 
 
-import os
+
 
 
 def load_json_schedulers():
