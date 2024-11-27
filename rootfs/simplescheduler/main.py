@@ -74,7 +74,7 @@ def webserver_edit():
         with open(file, "r") as read_file:
             param = json.load(read_file)
     else:
-        param = json.loads(get_json_template(stype))
+        param = json.loads(get_json_templateget_json_template(stype))
         param['id'] = uuid.uuid4().hex
         is_new = True
 
@@ -485,16 +485,22 @@ def update_json_file(object_id, field_name, field_value):
     return True
 
 
+import os
+
+
 def load_json_schedulers():
     ss = []
-    os.chdir(simpleschedulerconf.json_folder)
-    for file in glob.glob("*.json"):
-        with open(file, "r") as read_file:
-            try:
-                ss.append(json.load(read_file))
-            except:
-                printlog("ERROR: scheduler file %s is corrupted" % file)
+    for root, dirs, files in os.walk(simpleschedulerconf.json_folder):
+        for file in files:
+            if file.endswith(".json"):
+                file_path = os.path.join(root, file)
+                with open(file_path, "r") as read_file:
+                    try:
+                        ss.append(json.load(read_file))
+                    except:
+                        printlog("ERROR: scheduler file %s is corrupted" % file)
     return ss
+
 
 
 def mqtt_publish_state(client, object_id, pub_value, echo=False):
