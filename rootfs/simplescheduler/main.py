@@ -74,7 +74,7 @@ def webserver_edit():
         with open(file, "r") as read_file:
             param = json.load(read_file)
     else:
-        param = json.loads(get_json_templateget(stype))
+        param = json.loads(get_json_template(stype))
         param['id'] = uuid.uuid4().hex
         is_new = True
 
