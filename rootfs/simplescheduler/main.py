@@ -34,16 +34,32 @@ app = Flask(__name__)
 @app.route("/")
 @app.route("/main")
 def webserver_home():
+    selected_folder = request.args.get('folder', default='', type=str)
+    folders = get_subfolders()
+    data = load_json_schedulers_from_folder(selected_folder) if selected_folder else load_json_schedulers()
     return render_template('index.html',
-                           data=load_json_schedulers(),
+                           data=data,
                            o=get_options(),
                            css=get_css(),
                            switchlist=get_switch_html_select_options(),
                            friendlynames=get_switch_friendly_names(),
                            sort=get_sort_list(),
                            weekday=weekday,
-                           statusbarinfo=get_statusbar_info()
+                           statusbarinfo=get_statusbar_info(),
+                           folders=folders,
+                           selected_folder=selected_folder
                            )
+
+def load_json_schedulers_from_folder(folder):
+    ss = []
+    folder_path = os.path.join(simpleschedulerconf.json_folder, folder)
+    for file in glob.glob(os.path.join(folder_path, "*.json")):
+        with open(file, "r") as read_file:
+            try:
+                ss.append(json.load(read_file))
+            except:
+                printlog("ERROR: scheduler file %s is corrupted" % file)
+    return ss
 
 
 @app.route("/new")
@@ -485,6 +501,9 @@ def update_json_file(object_id, field_name, field_value):
     return True
 
 
+def get_subfolders():
+    folders = next(os.walk(simpleschedulerconf.json_folder))[1]
+    return folders
 
 
 
@@ -500,7 +519,6 @@ def load_json_schedulers():
                     except:
                         printlog("ERROR: scheduler file %s is corrupted" % file)
     return ss
-
 
 
 def mqtt_publish_state(client, object_id, pub_value, echo=False):
