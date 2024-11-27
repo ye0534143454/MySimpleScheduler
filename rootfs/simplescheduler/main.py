@@ -34,7 +34,7 @@ app = Flask(__name__)
 @app.route("/")
 @app.route("/main")
 def webserver_home():
-    return render_template('index.html',
+    return render_template('index1.html',
                            data=load_json_schedulers(),
                            o=get_options(),
                            css=get_css(),
