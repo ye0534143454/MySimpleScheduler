@@ -289,10 +289,12 @@
     // יצירת תיקיה חדשה
     $('#add-folder').on('click', function () {
         const folderName = prompt("Enter folder name:");
-        if (folderName) {
+        if (folderName && folderName.trim() !== "") {
             const folderId = `folder-${Date.now()}`;
             $('#dtable tbody').append(folderTemplate(folderName, folderId));
             folderContents[folderId] = []; // יצירת תיקיה במבנה הנתונים
+        } else {
+            alert("Please enter a valid folder name.");
         }
     });
 
@@ -320,7 +322,7 @@
 
         // הוספת פעולות של התיקיה
         actions.forEach(actionId => {
-            const actionName = `Action ${actionId}`; // עדכן את השם לפי הנתונים שלך
+            const actionName = `Action ${actionId}`; // עדכון שם פעולה לפי הנתונים שלך
             tbody.append(actionTemplate(actionName, actionId));
         });
 
@@ -352,13 +354,11 @@
             tbody.append(actionTemplate(actionName, actionId));
         });
     });
-});
-
 
     // הפיכת פעולות לגרירות בין הטבלה לתיקיות
-    $tbody.sortable({
-        connectWith: ".folder-content",
-        helper: "clone",
+    $('#dtable tbody').sortable({
+        connectWith: ".folder-row", // חיבור עם תיקיות
+        helper: "clone", // יצירת עותק של השורה הנגררת
         start: function (event, ui) {
             ui.item.css('opacity', '0.6');
         },
@@ -367,6 +367,8 @@
         }
     });
 });
+
+
 
 
 	function toggle_false_condition_section() {
