@@ -41,6 +41,16 @@
 
     .form-row span.mdi {    font-size: 14px;  }
 
+	.folder-row {
+    	background-color: #f1f1f1;
+    	font-weight: bold;
+	}
+
+	.action-row {
+    	background-color: #ffffff;
+	}
+
+
 	.btn-default { color: white;}
 
 	.dowIcon  {
