@@ -5,11 +5,12 @@
 <title>Simple Scheduler for HA</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.9.96/css/materialdesignicons.min.css" >
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.9.96/css/materialdesignicons.min.css" >
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
+
 
 <style>
 {{ css|safe }}
@@ -24,389 +25,436 @@
 <body>
 
 <div class="wrapper">
-        <nav id="sidebar">
-            <button type="button" aria-label="Close" class="btn btn-outline-secondary btn-sm" onclick="toggle_sidebar();">>>></button>
+		<nav id="sidebar">
+			<button type="button" aria-label="Close" class="btn btn-outline-secondary btn-sm" onclick="toggle_sidebar();">>>></button>
 
-            <div id="sidebar-wrapper">
-                ...
-            </div>
-        </nav>
+			<div id="sidebar-wrapper">
+				...
+			</div>
+		</nav>
 
-        <form action="saveconfig" method="get" id="config-form" >
+		<form action="saveconfig" method="get" id="config-form" >
 
-        <div class="content" >
-            <div style="margin-bottom: 10px;">
-                <input type="text" id="new-folder-name" placeholder="Folder Name" />
-                <button type="button" id="add-folder-btn" class="btn btn-primary">Add Folder</button>
-            </div>
-            <div>
-                <table class="table table-hover" id="dtable">
-                    <thead class="bg-primary">
-                    <tr>
-                      <th scope="col" colspan="5" >
-                          <span class="titlebar_span" id="title">SimpleScheduler</span>
-                          <span class="titlebar_span" id="show-add"><button type="button" class="btn btn-default bg-white main-color" ><span class="mdi mdi-plus"></span></button></span>
-                          <span class="titlebar_span" id="show-log"><button type="button" class="btn btn-default bg-white main-color" ><span class="mdi mdi-file-document-outline" ></span></button></span>
-                          <span class="titlebar_span" id="show-config"><button type="button" class="btn btn-default bg-white main-color" ><span class="mdi mdi-cog-outline"></span></button></span>
-                      </th>
-                    </tr>
-                    </thead>
-                    <tbody id="dtable-body">
-                        <!-- כאן מתחילים להוסיף תוכן - תיקיות ומשימות -->
-                    {% for s in data %}
-                    <tr data-value="{{ s.id }}" data-order="{{ sort[s.id] }}" style="opacity: {{ '1' if s.enabled else '0.3' }}">
-                        {% if s.weekly %}
-                        <td class="text-center drag_icon fit"><span class="mdi mdi-calendar-range mdi-24px"></span></td>
-                        {% elif s.recurring %}
-                        <td class="text-center drag_icon fit"><span class="mdi mdi-calendar-refresh mdi-24px"></span></td>
-                        {% else %}
-                        <td class="text-center drag_icon fit"><span class="mdi mdi-calendar-week mdi-24px"></span></td>
-                        {% endif %}
+		<div class="content" >
+			<div>
+				<table class="table table-hover" id="dtable">
+					<thead class="bg-primary">
+					<tr>
+					  <th scope="col" colspan="5" >
+						  <span class="titlebar_span" id="title">SimpleScheduler</span>
+						  <span class="titlebar_span" id="show-add"><button type="button" class="btn btn-default bg-white main-color" ><span class="mdi mdi-plus"></span></button></span>
+						  <span class="titlebar_span" id="show-log"><button type="button" class="btn btn-default bg-white main-color" ><span class="mdi mdi-file-document-outline" ></span></button></span>
+						  <span class="titlebar_span" id="show-config"><button type="button" class="btn btn-default bg-white main-color" ><span class="mdi mdi-cog-outline"></span></button></span>
+					  </th>
+					</tr>
+					</thead>
+					<tbody>
 
-                        <td class="text-center fit">{% if s.template %}<span class="mdi mdi-directions-fork mdi-24px"></span>{% endif %}</td>
-                        <td class="text-center fit">
-                            <button type="button" class="btn btn-default bg-primary edit-button" aria-id="{{ s.id }}"><span class="mdi mdi-pencil"></span></button>
-                            <button type="button" class="btn btn-default bg-primary view-button" aria-id="{{ s.id }}"><span class="mdi mdi-eye"></span></button>
-                        </td>
-                        <td class="name_col">
-                            <div class="row-title"><p data-bs-toggle="tooltip" data-bs-html="true" title="{{ s.id }}">{{ s.name }}</p></div>
-                            <div class="entities_list">
-                                {% if s.entity_id %}
-                                {% for e in s.entity_id %}
-                                <span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-html="true" title="{{ e }}">{{ friendlynames[e] }}</span>
-                                {% endfor %}
-                                {% endif %}
-                            </div>
-                        </td>
-                        {% if s.weekly %}
-                        <td>
-                            <div class="week_table w_mode" id="detail_{{ s.id }}">
-                                <div class="week_table_row week_table_header">
-                                    <div class="week_table_cell"></div>
-                                    {% for wd in range(1, 8): %}
-                                    <div class="week_table_cell" style="width: 13.5%;">{{ weekday[wd] }}</div>
-                                    {% endfor %}
-                                </div>
-                                <div class="week_table_row text-green week_table_row_bottom_line">
-                                    <div class="week_table_cell"><span class="badge dowHiglightG">{{ o.translations.text_ON }}</span></div>
-                                    {% for wd in range(1, 8): %}
-                                    <div class="week_table_cell">{{ format_event(s.weekly['on_' + wd|string], True)|safe }}</div>
-                                    {% endfor %}
-                                </div>
-                                <div class="week_table_row text-red week_table_row_bottom_line">
-                                    <div class="week_table_cell"><span class="badge dowHiglightR">{{ o.translations.text_OFF }}</span></div>
-                                    {% for wd in range(1, 8): %}
-                                    <div class="week_table_cell">{{ format_event(s.weekly['off_' + wd|string], False)|safe }}</div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </td>
-                        {% elif s.recurring %}
-                        <td class="event-cell">
-                            <div class="week_table d_mode" id="detail_{{ s.id }}">...</div>
-                        </td>
-                        {% else %}
-                        <td class="event-cell">
-                            <div class="week_table d_mode" id="detail_{{ s.id }}">...</div>
-                        </td>
-                        {% endif %}
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+					{% for s in data %}
+
+						  <tr data-value="{{ s.id }}" data-order="{{ sort[s.id] }}" style="opacity: {{ '1' if s.enabled else '0.3' }}">
+							  {% if s.weekly %}
+							  <td class="text-center drag_icon fit"> <span class="mdi mdi-calendar-range mdi-24px" ></span> </td>
+							  {% elif s.recurring %}
+							  <td class="text-center drag_icon fit"><span class="mdi mdi-calendar-refresh mdi-24px" ></span></td>
+							  {% else %}
+							  <td class="text-center drag_icon fit"><span class="mdi mdi-calendar-week mdi-24px" ></span></td>
+							  {% endif %}
+
+							  <td class="text-center fit">{% if s.template %}<span class="mdi mdi-directions-fork mdi-24px" ></span>{% endif %}</span></td>
+
+							  <td class="text-center fit" >
+								<button type="button" class="btn btn-default bg-primary edit-button" aria-id="{{ s.id }}" ><span class="mdi mdi-pencil" ></span></button>
+								<button type="button" class="btn btn-default bg-primary view-button" aria-id="{{ s.id }}" ><span class="mdi mdi-eye" ></span></button>
+							  </td>
+							  <td  class="name_col" >
+								<div class="row-title"><p data-bs-toggle="tooltip" data-bs-html="true"  title="{{ s.id }}" >{{ s.name }}</p></div>
+								<div class="entities_list">
+								{% if s.entity_id %}
+								{% for e in s.entity_id %}
+									<span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-html="true"  title="{{ e }}" >{{ friendlynames[e] }}</span>
+								{% endfor %}
+								{% endif %}
+								</div>
+							  </td>
+							  {% if s.weekly %}
+							  <td>
+								<div class="week_table w_mode" id="detail_{{ s.id }}">
+									<div class="week_table_row week_table_header">
+										<div class="week_table_cell"></div>
+										{% for wd in range(1, 8): %}
+											   <div class="week_table_cell" style="width: 13.5%;" >
+											   {{ weekday[wd] }}
+											   </div>
+										{% endfor%}
+									</div>
+									<div class="week_table_row text-green week_table_row_bottom_line">
+										<div class="week_table_cell "><span class="badge  dowHiglightG ">{{ o.translations.text_ON }}</span></div>
+										{% for wd in range(1, 8): %}
+											   <div class="week_table_cell">
+												{{ format_event(s.weekly['on_'+wd|string], True)|safe }}
+											   </div>
+										{% endfor%}
+									</div>
+									<div class="week_table_row text-red week_table_row_bottom_line">
+										<div class="week_table_cell "><span class="badge  dowHiglightR ">{{ o.translations.text_OFF }}</span></div>
+										{% for wd in range(1, 8): %}
+											   <div class="week_table_cell">
+												{{ format_event(s.weekly['off_'+wd|string], False)|safe }}
+											   </div>
+										{% endfor%}
+									</div>
+								</div>
+							  </td>
+							  {% elif s.recurring %}
+							  <td class="event-cell">
+									<div class="week_table d_mode"  id="detail_{{ s.id }}">
+										<div class="week_table_row ">
+											<div class="week_table_cell ">
+												{% if s.on_dow and s.on_tod %}
+													<div class="event-list text-green">
+														<span>  {{ s.recurring.on_start }} <i class="mdi mdi-arrow-left-right-bold" ></i> {{ s.recurring.on_end }}
+														<span class="mdi mdi-timer-sand" >{{ s.recurring.on_interval }}m</span></span>
+													</div>
+													<!-- <div style="clear:both;" class="event-list text-green">{{ format_event(s.on_tod, True)|safe }}</div> -->
+													<div style="clear:both;">{{ get_friendly_html_dow(s.on_dow,True)|safe }}</div>
+												{% endif %}
+											</div>
+											<div class="week_table_cell ">
+												{% if s.off_dow and s.off_tod %}
+													<div class="event-list text-red">
+														<span>  {{ s.recurring.off_start }} <i class="mdi mdi-arrow-left-right-bold" ></i> {{ s.recurring.off_end }}
+														<span class="mdi mdi-timer-sand" >{{ s.recurring.off_interval }}m</span></span>
+													</div>
+													<!-- <div style="clear:both;" class="event-list text-red">{{ format_event(s.off_tod, False)|safe }}</div> -->
+													<div style="clear:both;">{{ get_friendly_html_dow(s.off_dow,False)|safe }}</div>
+												{% endif %}
+											</div>
+										</div>
+									</div>
+							  </td>
+							 {% else %}
+							  <td class="event-cell">
+									<div class="week_table d_mode"  id="detail_{{ s.id }}">
+										<div class="week_table_row ">
+											<div class="week_table_cell ">
+												{% if s.on_dow and ( s.on_tod or s.on_tod_false ) %}
+														<div class="event-list text-green">
+															{% if s.on_tod_false and s.on_tod %}
+															<span class="mdi mdi-thumb-up" style="margin-bottom:0;"></span>
+															{% endif %}
+															{{ format_event(s.on_tod, True)|safe }}
+														</div>
+													{% if s.on_tod_false %}
+													<div style="clear:both;">
+														<div class="event-list text-green">
+															<span class="mdi mdi-thumb-down" style="margin-bottom:0;"></span>
+															{{ format_event(s.on_tod_false, True)|safe }}
+														</div>
+													</div>
+													{% endif %}
+													<div style="clear:both;">{{ get_friendly_html_dow(s.on_dow,True)|safe }}</div>
+												{% endif %}
+											</div>
+											<div class="week_table_cell ">
+												{% if s.off_dow and ( s.off_tod or s.off_tod_false ) %}
+													<div class="event-list text-red">
+														{% if s.off_tod_false and s.off_tod %}
+														<span class="mdi mdi-thumb-up" style="margin-bottom:0;"></span>
+														{% endif %}
+														{{ format_event(s.off_tod, False)|safe }}</div>
+												    {% if s.off_tod_false %}
+													<div style="clear:both;">
+														<div class="event-list text-red">
+															<span class="mdi mdi-thumb-down" style="margin-bottom:0;"></span>
+															{{ format_event(s.off_tod_false, True)|safe }}
+														</div>
+													</div>
+													{% endif %}
+													<div style="clear:both;">{{ get_friendly_html_dow(s.off_dow,False)|safe }}</div>
+												{% endif %}
+											</div>
+										</div>
+									</div>
+							  </td>
+							  {% endif %}
+						  </tr>
+
+					{% endfor %}
+
+					</tbody>
+				</table>
+			</div>
+
+		</div>
 
         </form>
 
-        <div class="overlay"></div>
+		<div class="overlay"></div>
 
-        <footer class="footer">
-          <div class="statusbar">
-            <p>
-                <span class="statusbar_span"><span class="mdi mdi-weather-sunset-up" ></span> {{ statusbarinfo.sunrise }}</span>
-                <span class="statusbar_span"><span class="mdi mdi-weather-sunset-down" ></span> {{ statusbarinfo.sunset }}</span>
-                <span class="statusbar_span"><span class="mdi mdi-map-clock-outline" ></span> {{ statusbarinfo.timezone }}</span>
-                <span class="statusbar_span"><span class="mdi mdi-calendar-clock" ></span> {{ statusbarinfo.scheduler }}</span>
-                <span class="statusbar_span">MQTT: {{ statusbarinfo.mqtt }}</span>
-            </p>
-          </div>
-        </footer>
+		<footer class="footer">
+		  <div class="statusbar">
+			<p>
+				<span class="statusbar_span"><span class="mdi mdi-weather-sunset-up" ></span> {{ statusbarinfo.sunrise }}</span>
+				<span class="statusbar_span"><span class="mdi mdi-weather-sunset-down" ></span> {{ statusbarinfo.sunset }}</span>
+				<span class="statusbar_span"><span class="mdi mdi-map-clock-outline" ></span> {{ statusbarinfo.timezone }}</span>
+				<span class="statusbar_span"><span class="mdi mdi-calendar-clock" ></span> {{ statusbarinfo.scheduler }}</span>
+				<span class="statusbar_span">MQTT: {{ statusbarinfo.mqtt }}</span>
+
+			</p>
+		  </div>
+		</footer>
 </div>
 
 <div id="log_wrapper" >
-    <div>
-        <pre id="logcontent"></pre>
-        <button type="button" class="btn btn-secondary" id="closelog"><span class="mdi close-box-outline" ></span> Close </button>
-    </div>
+	<div>
+		<pre id="logcontent"></pre>
+		<button type="button" class="btn btn-secondary" id="closelog"><span class="mdi close-box-outline" ></span> Close </button>
+	</div>
 </div>
 <div id="block_background" ></div>
 
 <script>
 
-    $( document ).ready(function() {
-        let $tbody = $("#dtable tbody");
+	$( document ).ready(function() {
 
-        function makeItemsSortable() {
-            $tbody.sortable({
-                distance: 5,
-                delay: 100,
-                opacity: 0.6,
-                cursor: 'move',
-                connectWith: "tr.folder",
-                update: function(e, tr) {
-                    let orderlist = '';
-                    $('tr.ui-sortable-handle').each(function(i) {
-                        $(this).attr('data-order', i);
-                        orderlist = orderlist + '&list[' + i + ']=' + $(this).attr('data-value');
-                    });
-                    $("#sidebar-wrapper").load("sort?" + orderlist);
-                }
-            }).disableSelection();
+			var $tbody = $("#dtable tbody");
 
-            $("tr.folder").droppable({
-                accept: "tr.ui-sortable-handle",
-                drop: function(event, ui) {
-                    ui.draggable.appendTo($(this).next("tbody"));
-                }
-            });
+			$tbody.sortable({
+				distance: 5,
+				delay: 100,
+				opacity: 0.6,
+				cursor: 'move',
+				update:  function(e, tr) {
+							var orderlist = '';
+							$('tr.ui-sortable-handle').each(function (i) {
+								$(this).attr('data-order',i);
+								orderlist=orderlist+'&list['+i+']='+$(this).attr('data-value');
+							});
+							$("#sidebar-wrapper").load("sort?"+orderlist);
+						}
+			}).disableSelection();
 
-            $tbody.find('tr[data-folder-id]').each(function() {
-                let folderId = $(this).attr('data-folder-id');
-                $(this).appendTo($("tr.folder[data-folder-id='" + folderId + "']").next("tbody"));
-            });
-        }
 
-        makeItemsSortable();
+			$tbody.find('tr.ui-sortable-handle').sort(function (a, b) {
+				var tda = parseInt($(a).attr('data-order'));
+				var tdb = parseInt($(b).attr('data-order'));
+				return tda > tdb ? 1
+					   : tda < tdb ? -1
+					   : 0;
+			}).appendTo($tbody);
+	});
 
-        // אירוע לחצן הוספת תיקיה
-        $("#add-folder-btn").on("click", function() {
-            let folderName = $("#new-folder-name").val().trim();
-            if (folderName) {
-                let folderId = "folder" + (new Date().getTime()); // Unique ID
-                let newFolderHtml = `<tr class="folder" data-folder-id="${folderId}"><td colspan="5">${folderName}</td></tr>`;
+	function toggle_false_condition_section() {
+			t = document.getElementById('template');
+			if (t.value=='') {
+				$('.false_condition_section').each(function() { this.style.display="none"; });
+			} else {
+				$('.false_condition_section').each(function() { this.style.display="block"; });
+			}
+	}
 
-                $tbody.append(newFolderHtml);
-                makeItemsSortable(); // re-apply sortable and droppable
-                $("#new-folder-name").val(""); // Clear input
-            }
-        });
+	function toggle_sidebar(){
+		$("#sidebar").hide();
+		$("body").css('overflow','auto');
+	}
 
-        $tbody.find('tr.ui-sortable-handle').sort(function(a, b) {
-            var tda = parseInt($(a).attr('data-order'));
-            var tdb = parseInt($(b).attr('data-order'));
-            return tda > tdb ? 1 : tda < tdb ? -1 : 0;
-        }).appendTo($tbody);
+	$(document).on('click', '.edit-button', function () {
+			v=$(this).attr('aria-id');
+			$("#sidebar-wrapper").html('');
+			$("#sidebar").show();
+			$("body").css('overflow','hidden');
+            $("#sidebar-wrapper").load("edit?id="+v, function() {
+				$(".entity-dropdown-fix").each(function( t ) {
+					  this.value = $(this).attr('aria-data');
+					});
+				toggle_false_condition_section();
+			});
+
     });
 
-    function toggle_false_condition_section() {
-        t = document.getElementById('template');
-        if (t.value == '') {
-            $('.false_condition_section').each(function() { this.style.display = "none"; });
-        } else {
-            $('.false_condition_section').each(function() { this.style.display = "block"; });
-        }
-    }
-
-    function toggle_sidebar(){
-        $("#sidebar").hide();
-        $("body").css('overflow', 'auto');
-    }
-
-    $(document).on('click', '.edit-button', function () {
-        v = $(this).attr('aria-id');
-        $("#sidebar-wrapper").html('');
-        $("#sidebar").show();
-        $("body").css('overflow', 'hidden');
-        $("#sidebar-wrapper").load("edit?id=" + v, function() {
-            $(".entity-dropdown-fix").each(function(t) {
-                this.value = $(this).attr('aria-data');
-            });
-            toggle_false_condition_section();
-        });
+	$(document).on('click', '.view-button', function () {
+			var v=$(this).attr('aria-id');
+			var t="#detail_"+v;
+			if ($(t).css('display')=="table") {
+				$(t).css('display','none');
+			}else{
+				$(t).css('display','table');
+			}
     });
 
-    $(document).on('click', '.view-button', function () {
-        var v = $(this).attr('aria-id');
-        var t = "#detail_" + v;
-        if ($(t).css('display') == "table") {
-            $(t).css('display', 'none');
-        } else {
-            $(t).css('display', 'table');
-        }
+	$(document).on('click', '#show-add', function () {
+			$("#sidebar-wrapper").html('');
+			$("#sidebar").show();
+            $("#sidebar-wrapper").load("new");
     });
 
-    $(document).on('click', '#show-add', function () {
-        $("#sidebar-wrapper").html('');
-        $("#sidebar").show();
-        $("#sidebar-wrapper").load("new");
+	$(document).on('click', '#show-config', function () {
+            $("#dtable tbody").load("config");
     });
 
-    $(document).on('click', '#show-config', function () {
-        $("#dtable tbody").load("config");
+	$(document).on('click', '#close-config', function () {
+            window.location.href="main";
     });
 
-    $(document).on('click', '#close-config', function () {
-        window.location.href = "main";
+	$(document).on('click', '#save-config', function () {
+			var f = document.getElementById("config-form");
+			$("input:checkbox:not(:checked)").each( function () {
+				$(this).prop('checked',true);
+				$(this).attr('value','0');
+			})
+			f.submit();
+	});
+
+	$(document).on('click', '#clone-button', function () {
+			var id=$(this).attr('aria-id');
+			window.location.href ='clone?id='+id;
     });
 
-    $(document).on('click', '#save-config', function () {
-        var f = document.getElementById("config-form");
-        $("input:checkbox:not(:checked)").each(function () {
-            $(this).prop('checked', true);
-            $(this).attr('value', '0');
-        })
-        f.submit();
+	$(document).on('click', '.delete-button', function () {
+			var id=$(this).attr('aria-id');
+			if (window.confirm("Are you sure?")) {
+				window.location.href ='delete?id='+id;
+			}
     });
 
-    $(document).on('click', '#clone-button', function () {
-        var id = $(this).attr('aria-id');
-        window.location.href ='clone?id=' + id;
+	$(document).on('click', '.img-add-new', function () {
+			v=$(this).attr('aria-id');
+			$("#sidebar-wrapper").html('');
+			$("#sidebar").show();
+            $("#sidebar-wrapper").load("edit?id="+0+"&type="+v);
     });
 
-    $(document).on('click', '.delete-button', function () {
-        var id = $(this).attr('aria-id');
-        if (window.confirm("Are you sure?")) {
-            window.location.href = 'delete?id=' + id;
-        }
-    });
+	$(document).on('click', '.generate_button', function () {
+			action=$(this).attr('aria-valuetext');
+			r = document.getElementById('recurring_preview_'+action);
+			generate_recurrent(action);
+			if ($(r).css('display')=="none") {
+				$(r).css('display','block');
+			}else{
+				$(r).css('display','none');
+			}
+	});
 
-    $(document).on('click', '.img-add-new', function () {
-        v = $(this).attr('aria-id');
-        $("#sidebar-wrapper").html('');
-        $("#sidebar").show();
-        $("#sidebar-wrapper").load("edit?id=" + 0 + "&type=" + v);
-    });
+	$(document).on('submit', '.edit-form', function () {
+			var f = document.getElementById("edit-form");
+			var t = f.type.value;
+			if (t=="recurring") {
+				generate_recurrent("on");
+				generate_recurrent("off");
+			}
+	});
 
-    $(document).on('click', '.generate_button', function () {
-        action = $(this).attr('aria-valuetext');
-        r = document.getElementById('recurring_preview_' + action);
-        generate_recurrent(action);
-        if ($(r).css('display') == "none") {
-            $(r).css('display', 'block');
-        } else {
-            $(r).css('display', 'none');
-        }
-    });
+	$(document).on('keyup', '.time_validate', function () {
+			obj=$(this);
+			field=obj[0];
+			var timeREGEX = /^[0-9]{2}:[0-9]{2}$/;
+			if (timeREGEX.test(field.value) || field.value=="") {
+				field.classList.remove("is-invalid");
+				document.getElementById("save-button").disabled=false;
+			} else {
+				field.classList.add("is-invalid");
+				document.getElementById("save-button").disabled=true;
+			}
+	});
 
-    $(document).on('submit', '.edit-form', function () {
-        var f = document.getElementById("edit-form");
-        var t = f.type.value;
-        if (t == "recurring") {
-            generate_recurrent("on");
-            generate_recurrent("off");
-        }
-    });
+	$(document).on('keyup', '.interval_validate', function () {
+			obj=$(this);
+			field=obj[0];
+			var intervalREGEX = /^[0-9]{1,3}$/;
+			if (intervalREGEX.test(field.value) || field.value=="") {
+				document.getElementById("save-button").disabled=false;
+				field.classList.remove("is-invalid");
+			} else {
+				document.getElementById("save-button").disabled=true;
+				field.classList.add("is-invalid");
+			}
+	});
 
-    $(document).on('keyup', '.time_validate', function () {
-        obj = $(this);
-        field = obj[0];
-        var timeREGEX = /^[0-9]{2}:[0-9]{2}$/;
-        if (timeREGEX.test(field.value) || field.value == "") {
-            field.classList.remove("is-invalid");
-            document.getElementById("save-button").disabled = false;
-        } else {
-            field.classList.add("is-invalid");
-            document.getElementById("save-button").disabled = true;
-        }
-    });
+	$(document).on('click', '#removeRow', function () {
+			$(this).closest('#inputFormRow').remove();
+	});
 
-    $(document).on('keyup', '.interval_validate', function () {
-        obj = $(this);
-        field = obj[0];
-        var intervalREGEX = /^[0-9]{1,3}$/;
-        if (intervalREGEX.test(field.value) || field.value == "") {
-            document.getElementById("save-button").disabled = false;
-            field.classList.remove("is-invalid");
-        } else {
-            document.getElementById("save-button").disabled = true;
-            field.classList.add("is-invalid");
-        }
-    });
+	$(document).on('click', '#show-log', function () {
+			$("#logcontent").load("log" , function() {
+					$('#logcontent').scrollTop( $('#logcontent')[0].scrollHeight );
+				});
+			$("#log_wrapper").css('display','block');
+			$("#block_background").css('width','100%');
+			$("#block_background").css('height','100%');
+			$("#block_background").css('background-color','#777777e6');
+	});
 
-    $(document).on('click', '#removeRow', function () {
-        $(this).closest('#inputFormRow').remove();
-    });
+	$(document).on('click', '#closelog', function () {
+			$("#log_wrapper").css('display','none');
+			$("#block_background").css('width','0%');
+			$("#block_background").css('height','0%');
+			$("#block_background").css('background-color','#77777700');
+	});
 
-    $(document).on('click', '#show-log', function () {
-        $("#logcontent").load("log", function() {
-            $('#logcontent').scrollTop($('#logcontent')[0].scrollHeight);
-        });
-        $("#log_wrapper").css('display','block');
-        $("#block_background").css('width','100%');
-        $("#block_background").css('height','100%');
-        $("#block_background").css('background-color','#777777e6');
-    });
+	function generate_recurrent(action) {
+			r = document.getElementById('recurring_preview_'+action);
+			r.innerHTML = "";
 
-    $(document).on('click', '#closelog', function () {
-        $("#log_wrapper").css('display','none');
-        $("#block_background").css('width','0%');
-        $("#block_background").css('height','0%');
-        $("#block_background").css('background-color','#77777700');
-    });
+			start=document.getElementById(action+'_start').value;
+			end=document.getElementById(action+'_end').value;
+			interval=document.getElementById(action+'_interval').value;
 
-    function generate_recurrent(action) {
-        r = document.getElementById('recurring_preview_' + action);
-        r.innerHTML = "";
+			var startDate= new Date("2022-01-01T" + start +":00Z");
+			var endDate = new Date("2022-01-01T" + end +":00Z");
+			s = startDate.getTime();
+			e = endDate.getTime();
 
-        start = document.getElementById(action + '_start').value;
-        end = document.getElementById(action + '_end').value;
-        interval = document.getElementById(action + '_interval').value;
+			if (s<e) {
+				while ( s<=e ) {
+				  out = new Date(s)
+				  t = out.toUTCString().substring(17, 22)
+				  if (t.length>0) r.innerHTML += t + " ";
+				  s = s + (interval * 60000);
+				}
+			} else {
+				r.innerHTML = ""
+			}
+			document.getElementById(action+'_tod').value=r.innerText;
+	}
 
-        var startDate = new Date("2022-01-01T" + start + ":00Z");
-        var endDate = new Date("2022-01-01T" + end + ":00Z");
-        s = startDate.getTime();
-        e = endDate.getTime();
+	var intervalcheck = window.setInterval(function(){
+		$.get("dirty", function( r ) {
+			if (r=="1") location.reload();
+		});
+	}, 3000);
 
-        if (s < e) {
-            while (s <= e) {
-                out = new Date(s)
-                t = out.toUTCString().substring(17, 22)
-                if (t.length > 0) r.innerHTML += t + " ";
-                s = s + (interval * 60000);
-            }
-        } else {
-            r.innerHTML = ""
-        }
-        document.getElementById(action + '_tod').value = r.innerText;
-    }
 
-    var intervalcheck = window.setInterval(function(){
-        $.get("dirty", function(r) {
-            if (r == "1") location.reload();
-        });
-    }, 3000);
+	$(document).on('keyup', '#template', function () {
+		toggle_false_condition_section();
+	});
 
-    $(document).on('keyup', '#template', function () {
-        toggle_false_condition_section();
-    });
+	$(document).on('focusout', '#template', function () {
+			t = this.value;
+			if (t=='') return false;
+			$.get("validatetemplate?t="+t, function( r  ) {
+				ta = document.getElementById('template');
+				notice = document.getElementById('notice')
+				if (r=='true' || r=='false' )  {
+					notice.style.background = "green";
+					notice.innerHTML="Template is valid! Result: <b>"+r;
+				} else {
+					notice.style.background = "red";
+					notice.innerHTML=r;
+				}
+			   notice.style.opacity = "1";
+			   notice.style.height = "auto";
+			   notice.style.marginTop = "1em";
+			   setTimeout(function() {
+				   notice.style.opacity = "0";
+				   notice.style.height = "0";
+				   notice.style.marginTop = "0";
+				   notice.innerHTML='';
+			   }, 5000);
+			});
+	});
 
-    $(document).on('focusout', '#template', function () {
-        t = this.value;
-        if (t == '') return false;
-        $.get("validatetemplate?t=" + t, function(r) {
-            ta = document.getElementById('template');
-            notice = document.getElementById('notice')
-            if (r == 'true' || r == 'false') {
-                notice.style.background = "green";
-                notice.innerHTML = "Template is valid! Result: <b>" + r;
-            } else {
-                notice.style.background = "red";
-                notice.innerHTML = r;
-            }
-            notice.style.opacity = "1";
-            notice.style.height = "auto";
-            notice.style.marginTop = "1em";
-            setTimeout(function() {
-                notice.style.opacity = "0";
-                notice.style.height = "0";
-                notice.style.marginTop = "0";
-                notice.innerHTML = '';
-            }, 5000);
-        });
-    });
-
-    $(document).on('click', '#addRow', function () {
+	$(document).on('click', '#addRow', function () {
 			var html = '';
 			html += '<div id="inputFormRow">';
 			html += '<div class="input-group mb-3">';
