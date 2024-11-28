@@ -216,34 +216,67 @@
 
 <script>
 
-	$( document ).ready(function() {
+	$(document).ready(function () {
+    var $tbody = $("#dtable tbody");
 
-			var $tbody = $("#dtable tbody");
+    // הפיכת הפעולות לגרירות בתוך הטבלה
+    $tbody.sortable({
+        distance: 5,
+        delay: 100,
+        opacity: 0.6,
+        cursor: 'move',
+        update: function (e, tr) {
+            var orderlist = '';
+            $('tr.ui-sortable-handle').each(function (i) {
+                $(this).attr('data-order', i);
+                orderlist = orderlist + '&list[' + i + ']=' + $(this).attr('data-value');
+            });
+            $("#sidebar-wrapper").load("sort?" + orderlist);
+        }
+    }).disableSelection();
 
-			$tbody.sortable({
-				distance: 5,
-				delay: 100,
-				opacity: 0.6,
-				cursor: 'move',
-				update:  function(e, tr) {
-							var orderlist = '';
-							$('tr.ui-sortable-handle').each(function (i) {
-								$(this).attr('data-order',i);
-								orderlist=orderlist+'&list['+i+']='+$(this).attr('data-value');
-							});
-							$("#sidebar-wrapper").load("sort?"+orderlist);
-						}
-			}).disableSelection();
+    $tbody.find('tr.ui-sortable-handle').sort(function (a, b) {
+        var tda = parseInt($(a).attr('data-order'));
+        var tdb = parseInt($(b).attr('data-order'));
+        return tda > tdb ? 1 : tda < tdb ? -1 : 0;
+    }).appendTo($tbody);
 
+    // פונקציה ליצירת תיקיה חדשה
+    $('#add-folder').on('click', function () {
+        const folderName = prompt("Enter folder name:");
+        if (folderName) {
+            const folderId = `folder-${Date.now()}`;
+            const folderHtml = `
+                <div id="${folderId}" class="folder border p-3 m-2" style="width: 200px; min-height: 100px;">
+                    <h5>${folderName}</h5>
+                    <div class="folder-content"></div>
+                </div>
+            `;
+            $('#folders').append(folderHtml);
 
-			$tbody.find('tr.ui-sortable-handle').sort(function (a, b) {
-				var tda = parseInt($(a).attr('data-order'));
-				var tdb = parseInt($(b).attr('data-order'));
-				return tda > tdb ? 1
-					   : tda < tdb ? -1
-					   : 0;
-			}).appendTo($tbody);
-	});
+            // הפיכת התיקיה ליעד לגרירה
+            $(`#${folderId} .folder-content`).sortable({
+                connectWith: "#dtable tbody, .folder-content",
+                receive: function (event, ui) {
+                    $(ui.item).css('opacity', '1'); // החזרת שקיפות לאחר הגרירה
+                }
+            });
+        }
+    });
+
+    // הפיכת פעולות לגרירות בין הטבלה לתיקיות
+    $tbody.sortable({
+        connectWith: ".folder-content",
+        helper: "clone",
+        start: function (event, ui) {
+            ui.item.css('opacity', '0.6');
+        },
+        stop: function (event, ui) {
+            ui.item.css('opacity', '1');
+        }
+    });
+});
+
 
 	function toggle_false_condition_section() {
 			t = document.getElementById('template');
