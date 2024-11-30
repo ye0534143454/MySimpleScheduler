@@ -213,163 +213,37 @@
 	</div>
 </div>
 <div id="block_background" ></div>
-<div class="content">
-    <table class="table table-hover" id="dtable">
-        <thead class="bg-primary">
-            <tr>
-                <th scope="col" colspan="5">
-                    <span class="titlebar_span" id="title">SimpleScheduler</span>
-                    <span class="titlebar_span" id="show-add">
-                        <button type="button" class="btn btn-default bg-white main-color" id="add-folder">
-                            <span class="mdi mdi-folder-plus"></span> New Folder
-                        </button>
-                    </span>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- פעולות קיימות -->
-            {% for s in data %}
-            <tr class="action-row" data-id="{{ s.id }}" data-type="action">
-                <td class="text-center drag_icon fit">
-                    <span class="mdi mdi-calendar-week mdi-24px"></span>
-                </td>
-                <td class="text-center fit">
-                    <button type="button" class="btn btn-default bg-primary edit-button" aria-id="{{ s.id }}">
-                        <span class="mdi mdi-pencil"></span>
-                    </button>
-                </td>
-                <td class="name_col">
-                    <div class="row-title">
-                        <p>{{ s.name }}</p>
-                    </div>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
 
 <script>
 
-	$(document).ready(function () {
-    const folderTemplate = (folderName, folderId) => `
-        <tr class="folder-row" data-id="${folderId}" data-type="folder">
-            <td class="text-center drag_icon fit">
-                <span class="mdi mdi-folder mdi-24px"></span>
-            </td>
-            <td colspan="2" class="name_col">
-                <div class="row-title">
-                    <p>${folderName}</p>
-                </div>
-            </td>
-            <td>
-                <button type="button" class="btn btn-primary open-folder" data-folder-id="${folderId}">
-                    Open
-                </button>
-            </td>
-        </tr>
-    `;
+	$( document ).ready(function() {
 
-    const actionTemplate = (actionName, actionId) => `
-        <tr class="action-row" data-id="${actionId}" data-type="action">
-            <td class="text-center drag_icon fit">
-                <span class="mdi mdi-calendar-week mdi-24px"></span>
-            </td>
-            <td colspan="2" class="name_col">
-                <div class="row-title">
-                    <p>${actionName}</p>
-                </div>
-            </td>
-        </tr>
-    `;
+			var $tbody = $("#dtable tbody");
 
-    const folderContents = {}; // שמירת פעולות לכל תיקיה
-
-    // יצירת תיקיה חדשה
-    $('#add-folder').on('click', function () {
-        const folderName = prompt("Enter folder name:");
-        if (folderName && folderName.trim() !== "") {
-            const folderId = `folder-${Date.now()}`;
-            $('#dtable tbody').append(folderTemplate(folderName, folderId));
-            folderContents[folderId] = []; // יצירת תיקיה במבנה הנתונים
-        } else {
-            alert("Please enter a valid folder name.");
-        }
-    });
-
-    // הפיכת פעולות ותיקיות לגרירות
-    $('#dtable tbody').sortable({
-        items: '> tr:not(.folder-row)', // פעולות בלבד
-        connectWith: '.folder-row',
-        update: function (event, ui) {
-            const targetRow = $(ui.item).closest('.folder-row');
-            if (targetRow.length) {
-                const folderId = targetRow.data('id');
-                const actionId = ui.item.data('id');
-                folderContents[folderId].push(actionId); // הוספת פעולה לתיקיה
-                ui.item.remove(); // הסרת הפעולה מהרשימה הראשית
-            }
-        }
-    });
-
-    // פתיחת תיקיה לצפייה בתוכן
-    $(document).on('click', '.open-folder', function () {
-        const folderId = $(this).data('folder-id');
-        const actions = folderContents[folderId] || [];
-        const tbody = $('#dtable tbody');
-        tbody.empty(); // ניקוי הטבלה
-
-        // הוספת פעולות של התיקיה
-        actions.forEach(actionId => {
-            const actionName = `Action ${actionId}`; // עדכון שם פעולה לפי הנתונים שלך
-            tbody.append(actionTemplate(actionName, actionId));
-        });
-
-        // הוספת כפתור חזרה
-        tbody.append(`
-            <tr>
-                <td colspan="3">
-                    <button id="back-to-main" class="btn btn-secondary">Back</button>
-                </td>
-            </tr>
-        `);
-    });
-
-    // חזרה לרשימה הראשית
-    $(document).on('click', '#back-to-main', function () {
-        const tbody = $('#dtable tbody');
-        tbody.empty(); // ניקוי התוכן
-
-        // הצגת תיקיות
-        for (const folderId in folderContents) {
-            const folderName = $(`.folder-row[data-id="${folderId}"] .row-title p`).text();
-            tbody.append(folderTemplate(folderName, folderId));
-        }
-
-        // הצגת פעולות
-        $('.action-row').each(function () {
-            const actionName = $(this).find('.row-title p').text();
-            const actionId = $(this).data('id');
-            tbody.append(actionTemplate(actionName, actionId));
-        });
-    });
-
-    // הפיכת פעולות לגרירות בין הטבלה לתיקיות
-    $('#dtable tbody').sortable({
-        connectWith: ".folder-row", // חיבור עם תיקיות
-        helper: "clone", // יצירת עותק של השורה הנגררת
-        start: function (event, ui) {
-            ui.item.css('opacity', '0.6');
-        },
-        stop: function (event, ui) {
-            ui.item.css('opacity', '1');
-        }
-    });
-});
+			$tbody.sortable({
+				distance: 5,
+				delay: 100,
+				opacity: 0.6,
+				cursor: 'move',
+				update:  function(e, tr) {
+							var orderlist = '';
+							$('tr.ui-sortable-handle').each(function (i) {
+								$(this).attr('data-order',i);
+								orderlist=orderlist+'&list['+i+']='+$(this).attr('data-value');
+							});
+							$("#sidebar-wrapper").load("sort?"+orderlist);
+						}
+			}).disableSelection();
 
 
-
+			$tbody.find('tr.ui-sortable-handle').sort(function (a, b) {
+				var tda = parseInt($(a).attr('data-order'));
+				var tdb = parseInt($(b).attr('data-order'));
+				return tda > tdb ? 1
+					   : tda < tdb ? -1
+					   : 0;
+			}).appendTo($tbody);
+	});
 
 	function toggle_false_condition_section() {
 			t = document.getElementById('template');
