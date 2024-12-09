@@ -474,3 +474,23 @@
         }
 	}
 
+
+.folder-item {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.folder-item .mdi-folder {
+    margin-right: 10px;
+    color: #2196F3;
+}
+
+.row-title[draggable="true"] {
+    cursor: move;
+    user-select: none;
+}
