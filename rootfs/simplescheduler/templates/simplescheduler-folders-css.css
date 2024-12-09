@@ -1,0 +1,42 @@
+/* simplescheduler-folders.css */
+.folder-add-btn {
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.folder-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+.folder-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.folder-header .mdi-folder {
+    margin-right: 10px;
+    color: #2196F3;
+}
+
+.folder-header .folder-name {
+    flex-grow: 1;
+}
+
+.folder-header .folder-expand {
+    cursor: pointer;
+}
+
+.row-title[draggable="true"] {
+    cursor: move;
+}
+
+.folder-container[draggable="true"] {
+    cursor: move;
+}
