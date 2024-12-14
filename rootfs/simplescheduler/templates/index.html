@@ -38,6 +38,7 @@
 		<div class="content" >
 			<div>
 				<table class="table table-hover" id="dtable">
+
 					<thead class="bg-primary">
 					<tr>
 					  <th scope="col" colspan="5" >
@@ -45,9 +46,12 @@
 						  <span class="titlebar_span" id="show-add"><button type="button" class="btn btn-default bg-white main-color" ><span class="mdi mdi-plus"></span></button></span>
 						  <span class="titlebar_span" id="show-log"><button type="button" class="btn btn-default bg-white main-color" ><span class="mdi mdi-file-document-outline" ></span></button></span>
 						  <span class="titlebar_span" id="show-config"><button type="button" class="btn btn-default bg-white main-color" ><span class="mdi mdi-cog-outline"></span></button></span>
+                          <span class="titlebar_span" id="add-folder"><button type="button" class="btn btn-default bg-white main-color"><span class="mdi mdi-folder-plus-outline"></span></button></span>
+
 					  </th>
 					</tr>
 					</thead>
+
 					<tbody>
 
 					{% for s in data %}
