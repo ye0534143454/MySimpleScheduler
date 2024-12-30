@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\rootfs",
+    "\\rootfs\\simplescheduler",
+    "\\rootfs\\simplescheduler\\templates"
   ],
-  "SelectedNode": "\\C:\\Users\\ME\\source\\repos\\ye0534143454\\MySimpleScheduler",
+  "SelectedNode": "\\rootfs\\simplescheduler\\main.py",
   "PreviewInSolutionExplorer": false
 }
