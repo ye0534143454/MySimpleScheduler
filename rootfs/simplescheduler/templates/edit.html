@@ -42,48 +42,49 @@
 					{% if p.weekly: %}
 					<input type="hidden" name="type" value="weekly" >
 					<div class="edit-section-label"><label><span class="mdi mdi-thumb-up"></span> {{ o.translations.text_ON }} / {{ o.translations.text_OFF }} </label></div>
-							<table>
-								<tr>
-									<td></td>
-									<td><span class="badge  dowHiglightG ">{{ o.translations.text_ON }}  </span></td>
-									<td><span class="badge  dowHiglightR ">{{ o.translations.text_OFF }} </span></td>
-								</tr>
-								<tr>
-									<td>{{ o.translations.text_monday[:2] }}</td>
-									<td><input type="text" name="on_1" class="form-control input-sm" value="{{ p.weekly.on_1 }}"></td>
-									<td><input type="text" name="off_1" class="form-control input-sm" value="{{ p.weekly.off_1 }}"></td>
-								</tr>
-								<tr>
-									<td>{{ o.translations.text_tuesday[:2] }}</td>
-									<td><input type="text" name="on_2" class="form-control input-sm" value="{{ p.weekly.on_2 }}"></td>
-									<td><input type="text" name="off_2" class="form-control input-sm" value="{{ p.weekly.off_2 }}"></td>
-								</tr>
-								<tr>
-									<td>{{ o.translations.text_wednesday[:2] }}</td>
-									<td><input type="text" name="on_3" class="form-control input-sm" value="{{ p.weekly.on_3 }}"></td>
-									<td><input type="text" name="off_3" class="form-control input-sm" value="{{ p.weekly.off_3 }}"></td>
-								</tr>
-								<tr>
-									<td>{{ o.translations.text_thursday[:2] }}</td>
-									<td><input type="text" name="on_4" class="form-control input-sm" value="{{ p.weekly.on_4 }}"></td>
-									<td><input type="text" name="off_4" class="form-control input-sm" value="{{ p.weekly.off_4 }}"></td>
-								</tr>
-								<tr>
-									<td>{{ o.translations.text_friday[:2] }}</td>
-									<td><input type="text" name="on_5" class="form-control input-sm" value="{{ p.weekly.on_5 }}"></td>
-									<td><input type="text" name="off_5" class="form-control input-sm" value="{{ p.weekly.off_5 }}"></td>
-								</tr>
-								<tr>
-									<td>{{ o.translations.text_saturday[:2] }}</td>
-									<td><input type="text" name="on_6" class="form-control input-sm" value="{{ p.weekly.on_6 }}"></td>
-									<td><input type="text" name="off_6" class="form-control input-sm" value="{{ p.weekly.off_6 }}"></td>
-								</tr>
-								<tr>
-									<td>{{ o.translations.text_sunday[:2] }}</td>
-									<td><input type="text" name="on_7" class="form-control input-sm" value="{{ p.weekly.on_7 }}"></td>
-									<td><input type="text" name="off_7" class="form-control input-sm" value="{{ p.weekly.off_7 }}"></td>
-								</tr>
-							</table>
+					<table>
+						<tr>
+							<td></td>
+							<td><span class="badge  dowHiglightG ">{{ o.translations.text_ON }}  </span></td>
+							<td><span class="badge  dowHiglightR ">{{ o.translations.text_OFF }} </span></td>
+						</tr>
+						<tr>
+							<td>{{ o.translations.text_sunday[:2] }}</td>
+							<td><input type="text" name="on_7" class="form-control input-sm" value="{{ p.weekly.on_7 }}"></td>
+							<td><input type="text" name="off_7" class="form-control input-sm" value="{{ p.weekly.off_7 }}"></td>
+						</tr>
+						<tr>
+							<td>{{ o.translations.text_monday[:2] }}</td>
+							<td><input type="text" name="on_1" class="form-control input-sm" value="{{ p.weekly.on_1 }}"></td>
+							<td><input type="text" name="off_1" class="form-control input-sm" value="{{ p.weekly.off_1 }}"></td>
+						</tr>
+						<tr>
+							<td>{{ o.translations.text_tuesday[:2] }}</td>
+							<td><input type="text" name="on_2" class="form-control input-sm" value="{{ p.weekly.on_2 }}"></td>
+							<td><input type="text" name="off_2" class="form-control input-sm" value="{{ p.weekly.off_2 }}"></td>
+						</tr>
+						<tr>
+							<td>{{ o.translations.text_wednesday[:2] }}</td>
+							<td><input type="text" name="on_3" class="form-control input-sm" value="{{ p.weekly.on_3 }}"></td>
+							<td><input type="text" name="off_3" class="form-control input-sm" value="{{ p.weekly.off_3 }}"></td>
+						</tr>
+						<tr>
+							<td>{{ o.translations.text_thursday[:2] }}</td>
+							<td><input type="text" name="on_4" class="form-control input-sm" value="{{ p.weekly.on_4 }}"></td>
+							<td><input type="text" name="off_4" class="form-control input-sm" value="{{ p.weekly.off_4 }}"></td>
+						</tr>
+						<tr>
+							<td>{{ o.translations.text_friday[:2] }}</td>
+							<td><input type="text" name="on_5" class="form-control input-sm" value="{{ p.weekly.on_5 }}"></td>
+							<td><input type="text" name="off_5" class="form-control input-sm" value="{{ p.weekly.off_5 }}"></td>
+						</tr>
+						<tr>
+							<td>{{ o.translations.text_saturday[:2] }}</td>
+							<td><input type="text" name="on_6" class="form-control input-sm" value="{{ p.weekly.on_6 }}"></td>
+							<td><input type="text" name="off_6" class="form-control input-sm" value="{{ p.weekly.off_6 }}"></td>
+						</tr>
+
+					</table>
 					{% elif p.recurring: %}
 						<input type="hidden" name="type" value="recurring" >
 						<input type="hidden" name="on_tod" id="on_tod" value="{{ p.on_tod }}">

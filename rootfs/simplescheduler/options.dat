@@ -1,19 +1,19 @@
 {
-  "translations": {
-    "text_monday": "Monday",
-    "text_tuesday": "Tuesday",
-    "text_wednesday": "Wednesday",
-    "text_thursday": "Thursday",
-    "text_friday": "Friday",
-    "text_saturday": "Saturday",
-    "text_sunday": "Sunday",
-    "text_ON": "ON",
-    "text_OFF": "OFF",
-    "text_save": "Save",
-    "text_enabled": "Enabled",
-    "text_device": "Device",
-    "text_name": "Name"
-  },
+    "translations": {
+        "text_sunday": "Sunday",
+        "text_monday": "Monday",
+        "text_tuesday": "Tuesday",
+        "text_wednesday": "Wednesday",
+        "text_thursday": "Thursday",
+        "text_friday": "Friday",
+        "text_saturday": "Saturday",
+        "text_ON": "ON",
+        "text_OFF": "OFF",
+        "text_save": "Save",
+        "text_enabled": "Enabled",
+        "text_device": "Device",
+        "text_name": "Name"
+    },
   "components": {
     "light": true,
     "scene": true,
