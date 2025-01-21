@@ -515,24 +515,30 @@
 			}
 		});
 
-		function addFolder(name) {
-			const folderElement = document.createElement('div');
-			folderElement.classList.add('folder');
-			folderElement.dataset.folderId = name;
-			folderElement.innerHTML = `<h3>${name}</h3><div class="folder-items" ondrop="drop(event)" ondragover="allowDrop(event)"></div>`;
-			document.getElementById('scheduler').appendChild(folderElement);
+        function addFolder(name) {
+            const folderElement = document.createElement('div');
+            folderElement.classList.add('folder');
+            folderElement.dataset.folderId = name;
+            folderElement.innerHTML = `
+        <h3>${name}</h3>
+        <div class="folder-items" ondrop="drop(event)" ondragover="allowDrop(event)"></div>`;
+            document.getElementById('scheduler').appendChild(folderElement);
 
-			saveFolder(name);
-		}
+            console.log('Folder added to DOM:', folderElement); // בדיקה
 
-		function saveFolder(name) {
-			const sortData = getSortData();
-			if (!sortData.folders) {
-				sortData.folders = {};
-			}
-			sortData.folders[name] = [];
-			saveSortData(sortData);
-		}
+            saveFolder(name);
+        }
+
+        function saveFolder(name) {
+            const sortData = getSortData();
+            if (!sortData.folders) {
+                sortData.folders = {};
+            }
+            sortData.folders[name] = [];
+            saveSortData(sortData);
+
+            console.log('Updated sortData:', sortData); // בדיקה
+        }
 
 		function allowDrop(event) {
 			event.preventDefault();
@@ -558,10 +564,14 @@
 			saveSortData(sortData);
 		}
 
-		function getSortData() {
-			// בדיקה אם יש מידע מקומי שמור
-			return JSON.parse(localStorage.getItem('sortData') || '{"id_order": [], "folders": {}}');
-		}
+        function getSortData() {
+            try {
+                return JSON.parse(localStorage.getItem('sortData') || '{"id_order": [], "folders": {}}');
+            } catch (error) {
+                console.error('Error parsing sortData from localStorage:', error);
+                return { id_order: [], folders: {} };
+            }
+        }
 
 		function saveSortData(data) {
 			localStorage.setItem('sortData', JSON.stringify(data));
