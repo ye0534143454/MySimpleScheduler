@@ -3,14 +3,14 @@ version: "2.7"
 name: Simple Scheduler
 description: Simple timer on weekly base
 slug: simplescheduler
-url: https://github.com/ye0534143454/SimpleScheduler
+url: https://github.com/ye0534143454/MySimpleScheduler
 codenotary: notary@home-assistant.io
 arch:
   - aarch64
   - amd64
   - armhf
   - armv7
-image: ghcr.io/arthurdent75/simplescheduler/{arch}
+image: ghcr.io/ye0534143454/MySimpleScheduler/{arch}
 init: false
 homeassistant_api: true
 ingress: true
