@@ -10,7 +10,7 @@ arch:
   - amd64
   - armhf
   - armv7
-image: ghcr.io/ye0534143454/MySimpleScheduler/{arch}
+  - i386
 init: false
 homeassistant_api: true
 ingress: true
