@@ -1,6 +1,6 @@
 ---
 version: "2.7"
-name: Simple Scheduler
+name: MySimple Scheduler
 description: Simple timer on weekly base
 slug: simplescheduler
 url: https://github.com/ye0534143454/MySimpleScheduler
